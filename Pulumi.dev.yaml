@@ -1,5 +1,5 @@
 config:
-  aws:region: us-west-2
+  aws:region: us-east-2
   eks-cluster:deployDashboard: "true"
   eks-cluster:desiredCapacity: "2"
   eks-cluster:instanceType: t2.medium
