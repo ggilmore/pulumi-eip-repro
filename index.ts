@@ -18,17 +18,17 @@ const vpc = new awsx.ec2.Vpc("eksNetwork", {
   subnets: [{ type: "public" }, { type: "private" }]
 });
 
-// Create an EKS cluster with the given configuration.
-const cluster = new eks.Cluster("cluster", {
-  vpcId: vpc.id,
-  subnetIds: vpc.id.apply(id => getSubnetIds(id)),
-  instanceType: instanceType,
-  desiredCapacity: desiredCapacity,
-  minSize: minSize,
-  maxSize: maxSize,
-  storageClasses: storageClass,
-  deployDashboard: deployDashboard
-});
+// // Create an EKS cluster with the given configuration.
+// const cluster = new eks.Cluster("cluster", {
+//   vpcId: vpc.id,
+//   subnetIds: vpc.id.apply(id => getSubnetIds(id)),
+//   instanceType: instanceType,
+//   desiredCapacity: desiredCapacity,
+//   minSize: minSize,
+//   maxSize: maxSize,
+//   storageClasses: storageClass,
+//   deployDashboard: deployDashboard
+// });
 
 async function getSubnetIds(vpcId: string): Promise<string[]> {
   const result = await aws.ec2.getSubnetIds({ vpcId });
@@ -36,4 +36,6 @@ async function getSubnetIds(vpcId: string): Promise<string[]> {
 }
 
 // Export the cluster's kubeconfig.
-export const kubeconfig = cluster.kubeconfig;
+// export const kubeconfig = cluster.kubeconfig;
+
+export const subnetIds = vpc.id.apply(id => getSubnetIds(id))
