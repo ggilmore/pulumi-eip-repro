@@ -18,10 +18,14 @@ const vpc = new awsx.ec2.Vpc("eksNetwork", {
   subnets: [{ type: "public" }, { type: "private" }]
 });
 
+export const subnetIds = pulumi
+  .all([vpc.publicSubnetIds, vpc.privateSubnetIds])
+  .apply(([pubIds, privIds]) => [...pubIds, ...privIds]);
+
 // // Create an EKS cluster with the given configuration.
 // const cluster = new eks.Cluster("cluster", {
 //   vpcId: vpc.id,
-//   subnetIds: vpc.id.apply(id => getSubnetIds(id)),
+//   subnetIds,
 //   instanceType: instanceType,
 //   desiredCapacity: desiredCapacity,
 //   minSize: minSize,
@@ -30,12 +34,5 @@ const vpc = new awsx.ec2.Vpc("eksNetwork", {
 //   deployDashboard: deployDashboard
 // });
 
-async function getSubnetIds(vpcId: string): Promise<string[]> {
-  const result = await aws.ec2.getSubnetIds({ vpcId });
-  return result.ids;
-}
-
 // Export the cluster's kubeconfig.
 // export const kubeconfig = cluster.kubeconfig;
-
-export const subnetIds = vpc.id.apply(id => getSubnetIds(id))
