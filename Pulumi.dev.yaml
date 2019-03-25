@@ -1,0 +1,8 @@
+config:
+  aws:region: us-west-2
+  eks-cluster:deployDashboard: "true"
+  eks-cluster:desiredCapacity: "2"
+  eks-cluster:instanceType: t2.medium
+  eks-cluster:maxSize: "2"
+  eks-cluster:minSize: "1"
+  eks-cluster:storageClass: gp2
